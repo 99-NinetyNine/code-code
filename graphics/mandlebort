@@ -1,0 +1,113 @@
+#include <graphics.h>
+#include <conio.h>
+#include <iostream>
+
+using namespace std;
+
+
+class Complex
+{
+public:
+	Complex() :m_x(0), m_y(0)
+	{
+	}
+	Complex(float x, float y) :m_x(x), m_y(y)
+	{
+	}
+	Complex(const Complex& point) :m_x(point.m_x), m_y(point.m_y)
+	{
+	}
+	Complex operator *(Complex& c)
+	{
+		return Complex(m_x * c.m_x, m_y * c.m_y);
+	}
+	void sq()
+	{
+		//Complex res;
+		m_x = m_x * m_x - m_y * m_y;
+		m_y = 2 * m_x * m_y;
+		//return res;
+	}
+	void operator +=(Complex& c)
+	{
+		m_x += c.m_x;
+		m_y += c.m_y;
+		//return *this;
+	}
+	void operator =(Complex& c)
+	{
+		m_x = c.m_x;
+		m_y = c.m_y;
+		//return *this;
+	}
+public:
+	float m_x, m_y;
+};
+
+int iterate(Complex zInit, int maxIter)
+{
+	Complex z;
+	z.m_x = zInit.m_x;
+	z.m_y=zInit.m_y;
+	int count = 0;
+	while (z.m_x * z.m_x + z.m_y * z.m_y <= 350.0f && count < maxIter)
+	{
+		z.sq();
+		z += zInit;
+		count++;
+
+	}
+	cout<<"count=="<<count<<"\t\n";
+	return count;
+
+
+}
+
+void m()
+{
+
+
+int nx =300;
+	int ny =300;
+	int maxIter=1000 ;
+	float realMin=-.050f ;
+	float realMax=10.0f ;
+	float imagMin=-.05f ;
+	float imagMax=10.0f;
+
+	float realInc = (realMax - realMin) / nx;
+	float imagInc = (imagMax - imagMin) / ny;
+	Complex z(20.1f,15.1f);
+	int x, y;
+	int count;
+	int setColor;
+	for (x = 100, z.m_x=realMin;x < nx;x++, z.m_x += realInc)
+    {
+
+
+		for (y = 100, z.m_y = imagMin;y < ny;y++, z.m_y += imagInc)
+		{
+        cout<<z.m_x<<z.m_y;
+            cout<<"(x,y)==\t"<<x<<",\t"<<y<<"\n";
+			count = iterate(z, maxIter);
+			if (count == maxIter)
+				count = 0;
+			putpixel(x, y, count);
+
+		}
+    }
+}
+
+int main()
+
+{
+
+    initwindow(600, 600);
+
+    m();
+
+    getch();
+    closegraph();
+    return 0;
+
+}
