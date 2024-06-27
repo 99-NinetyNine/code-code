@@ -1,4 +1,4 @@
-"
+"""
 Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the maximum number of points that lie on the same straight line.
 Algortihms:
   for each point i, we need to compute the slopes.
@@ -12,7 +12,7 @@ Nice Trick: We use defaultdict and saved the slope in terms of rational number c
   
 
 
-"
+"""
 from math import gcd
 from functools import reduce
 from collections import defaultdict
